@@ -40,7 +40,8 @@ Image - Windowss 10 Pro, version 22H2 -x64 Gen2
 Size - Either 2 vCPUs so it's a more responsive experience or 1 vCPUs to save money.
 Username - labuser
 Password - Cyberlab123!
-Disable Boot diagnostics</p>
+In networking enable "Delete public IP and NIC when VM is deleted"
+In monitoring disable Boot diagnostics</p>
 
 ![image](https://github.com/user-attachments/assets/33ccd8da-d4fc-4726-b668-5398dc1aa6c3)
 
@@ -59,3 +60,19 @@ Disable Boot diagnostics</p>
 ![image](https://github.com/user-attachments/assets/bfae1b9d-de3d-4e0b-a933-f3c5a91de74e)
 
 <h2>Disable the Internal Windows Firewall in the VM</h2>
+
+<p>Type "wf.msc" in the Windows search bar on the bottom left.</p>
+
+![image](https://github.com/user-attachments/assets/18702295-6181-4a0b-9bc2-fc82c067dc92)
+
+<p>Click Windows Defender Firewall Properties</p>
+
+![image](https://github.com/user-attachments/assets/6d95a849-612c-4595-9978-c6c1b7781798)
+
+<p>Set Firewall state to off for Domain Profile, Private Profile, and Public Profile</p>
+
+![image](https://github.com/user-attachments/assets/902bb728-7891-428b-92f4-cd0e7bc13966)
+
+<h2>Ping the Virtual Machine from your local computer</h2>
+
+<p>We ping the VM to make sure it is accesseible from the public internet</p>
