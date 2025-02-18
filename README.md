@@ -58,4 +58,4 @@ Disable Boot diagnostics</p>
 
 ![image](https://github.com/user-attachments/assets/bfae1b9d-de3d-4e0b-a933-f3c5a91de74e)
 
-<h2>Disable the Internal Windows Firewall</h2>
+<h2>Disable the Internal Windows Firewall in the VM</h2>
