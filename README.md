@@ -54,7 +54,7 @@ Disable Boot diagnostics</p>
 
 ![image](https://github.com/user-attachments/assets/c39d255e-42b9-4aad-9ab0-0ee8fe5f3275)
 
-<p>Go to inbound security rules and set source port and destination port ranges to any.</p>
+<p>Go to inbound security rules, create a new rule and set source port and destination port ranges to any.</p>
 
 ![image](https://github.com/user-attachments/assets/bfae1b9d-de3d-4e0b-a933-f3c5a91de74e)
 
