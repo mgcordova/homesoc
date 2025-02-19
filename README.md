@@ -18,6 +18,17 @@ This tutorial outlines how to set up a basic home SOC in Azure from scratch. Cre
 <h2>High-Level Deployment and Configuration Steps</h2>
 
 - Set up the virtual machine
+- Resource Group, Virtual Network, and Virtual Machine creation
+- Edit Network Security Group
+- Disable the internal Windows Firewall
+- Ping the VM
+- View the Raw Logs on the VM
+- Create a Log Repository
+- Create a Microsoft Sentinel for the Log Repository
+- Using a Data Collection rule to forward the logs to the Log Repository
+- Analyze and Filter the Log Repository
+- Create a Watchlist with Geolocation Data for the SIEM
+- Create an Attack Map
 
 <h2>Create a Resource Group</h2>
 
