@@ -219,7 +219,7 @@ Create the wizard, it will take a while to upload (10-20 minutes)</p>
 
 ![image](https://github.com/user-attachments/assets/c76aed4f-ac29-4b75-8e95-f50fe8df2037)
 
-![image](https://github.com/user-attachments/assets/c765147f-7387-412d-b41a-05fb12dbfa78)
+![image](https://github.com/user-attachments/assets/4aee7ebd-677f-4c30-a78d-a773fdc9ed60)
 
 <p>Click Save, add it to the resource group and rename the Workbook</p>
 
