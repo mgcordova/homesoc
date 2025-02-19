@@ -6,7 +6,10 @@ This tutorial outlines how to set up a basic home SOC in Azure from scratch. Cre
 <h2>Environments and Technologies Used</h2>
 
 - Microsoft Azure
-- Microsoft Ssentinel
+- Event Viewer
+- Remote Desktop Connection
+- Microsoft Sentinel
+- Log Analytics Workspace
 
 <h2>Operating Systems Used </h2>
 
@@ -36,12 +39,12 @@ This tutorial outlines how to set up a basic home SOC in Azure from scratch. Cre
 
 The virtual machine should have the following
 
-Image - Windowss 10 Pro, version 22H2 -x64 Gen2
-Size - Either 2 vCPUs so it's a more responsive experience or 1 vCPUs to save money.
-Username - labuser
-Password - Cyberlab123!
-In networking enable "Delete public IP and NIC when VM is deleted"
-In monitoring disable Boot diagnostics</p>
+- Image - Windowss 10 Pro, version 22H2 -x64 Gen2
+- Size - Either 2 vCPUs so it's a more responsive experience or 1 vCPUs to save money.
+- Username - labuser
+- Password - Cyberlab123!
+- In networking enable "Delete public IP and NIC when VM is deleted"
+- In monitoring disable Boot diagnostics</p>
 
 ![image](https://github.com/user-attachments/assets/33ccd8da-d4fc-4726-b668-5398dc1aa6c3)
 
@@ -75,4 +78,148 @@ In monitoring disable Boot diagnostics</p>
 
 <h2>Ping the Virtual Machine from your local computer</h2>
 
-<p>We ping the VM to make sure it is accesseible from the public internet</p>
+<p>We ping the VM to make sure it is accesseible from the public internet to make sure anyone in the world can access it.</p>
+
+![image](https://github.com/user-attachments/assets/44dbf6da-2e24-4469-94b9-2cbcdd8642e4)
+
+<h2>Viewing Raw Logs on the Virtual Machine</h2>
+
+<p>Fail a log on attempt three times then log into the virtual machine with the right credentials.</p>
+
+![image](https://github.com/user-attachments/assets/10270343-4e54-436d-9ccd-24be6148b891)
+
+<p>Search up Event Viewer on the bottom left through the Windows search bar.</p>
+
+![image](https://github.com/user-attachments/assets/c7173400-d765-45b0-a3ad-8dc3cba8bf2a)
+
+<p>Select Windows Logs and then go to Security which shows your failed log in attempts.
+
+Event ID 4625 means an account failed log in.</p>
+
+![image](https://github.com/user-attachments/assets/8b5b6801-ed1e-40c1-8fd1-38a9123f44f5)
+
+<h2>Creating Log Repository</h2>
+
+<p>On Azure search up Log Analytics Workspace then create a Log Analytics Workspace
+
+- Put it in the same resource group you created earlier
+- Fill out the name 
+- Make sure it is the same region as your resosurce group
+- Then create the Log Analytics Workspace</p>
+
+![image](https://github.com/user-attachments/assets/f4ed9f90-27f6-4b1d-8495-bcc734011655)
+
+<h2>Create a Microsoft Sentinel</h2>
+
+<p>Search up Microsoft Sentinel and create one. Click the Log Analytics Workspace you just created and add the Sentinel.</p>
+
+![image](https://github.com/user-attachments/assets/ab3ccf0c-cfc3-4e37-b272-73ff971cef3f)
+
+<h2>Connecting the VM to Log Analytics Workspace</h2>
+
+<p>Select the Sentinel you just created, go to Content Hub under Content Management, and search up "Security Event".
+
+Install Windows Security Events</p>
+
+![image](https://github.com/user-attachments/assets/ca3779bb-14e0-49c3-9241-da355bc58043)
+
+<p>Once it has finished installing you can click Manage on the bottom right.
+
+Select "Windows Security Event via AMA" then Open Connector Page</p>
+
+![image](https://github.com/user-attachments/assets/a2b258a1-c9b9-49d1-a297-5d72cb1f5d17)
+
+<p>Create a Data Collection rule which forwards logs to the Log Analytics Workspace.</p>
+
+![image](https://github.com/user-attachments/assets/838bb306-0cec-43ad-8544-db23434f878c)
+
+<p>Make sure to select the virtual machine you are using for this tutorial under the Resources tab.</p>
+
+![image](https://github.com/user-attachments/assets/4d9eab34-0429-4936-bbbe-e996ed8344a0)
+
+<p>Go to Log Analytics Workspace select the one you created earlier and click Logs.
+
+Search up SecurityEvent then click Run.</p>
+
+![image](https://github.com/user-attachments/assets/56ff34f4-6861-4896-b3b7-757d5390f0c2)
+
+<h2>Analyze and Filter the Law Analytics Workspace.</h2>
+
+<p>Wait about 20-40 minutes for events to occur on your virtual machine
+  
+Select a random account of your choosing and type the following line to filter for that account specifically 
+
+"| where Account == ACCOUNTNAME"
+
+Remember since \ is a special character, add an extra slash</p>
+
+![image](https://github.com/user-attachments/assets/e8782a82-bfbc-4873-b50a-1e1a66cdc7dc)
+
+<p>You can add more specific filters by typing the following
+
+"| project TimeGenerated, Account, Computer, EventID, Activity, IpAddress"</p>
+
+![image](https://github.com/user-attachments/assets/a7882792-72ff-47c7-85db-8270b4638b69)
+
+<p>You can search for specific EventID's such as failed log ons
+
+"| where EventID == 4625"</p>
+
+![image](https://github.com/user-attachments/assets/3bb247d8-747b-4b30-a1eb-c71871cd27cc)
+
+<h2>Uploading the Geolocation Data to the SIEM</h2>
+
+<p>Download the spreadsheet (https://drive.google.com/file/d/13EfjM_4BohrmaxqXZLB5VUBIz2sv9Siz/view)
+
+Go to Sentinel, click the Sentinel you created, then click Watchlist and create a new Watchlist</p>
+
+![image](https://github.com/user-attachments/assets/a283d15a-c0f9-4854-b433-cc4afaf0e9fb)
+
+<p>Within the Watchlist add the following 
+
+- Name - geoip
+- Alias - geoip
+- Source Type - Local File then upload the file you downloaded earlier
+- Searchkey - "network"
+
+Create the wizard, it will take a while to upload (10-20 minutes)</p>
+
+![image](https://github.com/user-attachments/assets/9af54aa0-5db5-4161-ba61-daf88eaefdfb)
+
+<h2>Create the Attack Map</h2>
+
+<p>Search up Sentinel, click the instance you made for the lab, under Threat Management click Workbooks, and create a new Workbook</p>
+
+![image](https://github.com/user-attachments/assets/8982c7a0-ed12-4cd3-a0aa-d4cc96edaec5)
+
+<p>Click edit and remove the elements that the workbook was prepopulated with.</p>
+
+![image](https://github.com/user-attachments/assets/b5bba263-9b39-49c0-bdf8-00ecd450e674)
+
+<p>Click the following link (https://drive.google.com/file/d/1ErlVEK5cQjpGyOcu4T02xYy7F31dWuir/view) and copy all of the content</p>
+
+![image](https://github.com/user-attachments/assets/fe6a0fe3-6798-41c7-9b45-9f6988254e32)
+
+<p>Go to the workbook, add a query, click advanced editor</p>
+
+![image](https://github.com/user-attachments/assets/24ddee25-08db-48b6-b837-aff8d62c48f4)
+
+<p>Erase all the contents and replace with the content you copied from the link and save your changes</p>
+
+![image](https://github.com/user-attachments/assets/c76aed4f-ac29-4b75-8e95-f50fe8df2037)
+
+![image](https://github.com/user-attachments/assets/c765147f-7387-412d-b41a-05fb12dbfa78)
+
+<p>Click Save, add it to the resource group and rename the Workbook</p>
+
+![image](https://github.com/user-attachments/assets/4239c397-fb57-47bf-8a72-d2f9998b083e)
+
+<p>The attack map will show the locations of the attackers attempting to log on to your VM. The longer you keep the VM online, the more populated the map will be.</p>
+
+<hr>
+
+<p>Congratulations you have successfully set up a home SOC on a virtual machine and analyzed the attacks through this tutorial.
+
+Now that we're finished, make sure to CLEAN UP YOUR AZURE ENVIRONMENT to avoid any unnecessary charges.
+
+Remember to close your Remote Desktop connection, delete the Resource Group(s) you created at the start of the tutorial, and verify that the Resource Group has been successfully deleted.</p>
