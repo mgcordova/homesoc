@@ -38,7 +38,7 @@ This tutorial outlines how to set up a basic home SOC in Azure from scratch. Cre
 
 <h2>Create a Virtual Network</h2>
 
-<p>Create a virutal network, make sure it is in the same region as your resource group and put it in the resource group you just created. Leave all settings to default and create the virtual network.</p>
+<p>Create a virtual network, make sure it is in the same region as your resource group and put it in the resource group you just created. Leave all settings to default and create the virtual network.</p>
 
 ![image](https://github.com/user-attachments/assets/7ec347b9-0d03-4ac1-a793-ef90452c5396)
 
